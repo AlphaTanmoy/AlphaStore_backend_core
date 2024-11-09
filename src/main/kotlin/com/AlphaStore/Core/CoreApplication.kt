@@ -1,18 +1,11 @@
-package com.AlphaStore.Core
+package com.alphaStore.Core
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient
-import org.springframework.context.annotation.ComponentScan
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
-@EnableDiscoveryClient
-@ComponentScan(basePackages = [
-    "com.AlphaStore.Core",
-    "com.AlphaStore.Utils"
-])
 class CoreApplication
 
 fun main(args: Array<String>) {
-    SpringApplication.run(CoreApplication::class.java, *args)
+	runApplication<CoreApplication>(*args)
 }
