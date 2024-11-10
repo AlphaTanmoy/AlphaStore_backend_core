@@ -8,6 +8,7 @@ import com.alphaStore.Core.enums.DataStatus
 import com.alphaStore.Core.enums.UserType
 import com.alphaStore.Core.model.AggregatorListResponse
 import com.alphaStore.Core.model.AggregatorResponse
+import com.alphaStore.Core.querybuilder.ClientDeviceRepoAggregatorQueryBuilder
 import com.alphaStore.Core.repo.ClientDeviceRepo
 import org.springframework.stereotype.Component
 import java.time.ZonedDateTime

@@ -4,6 +4,7 @@ import com.alphaStore.Core.entity.AccessRole
 import com.alphaStore.Core.enums.DataStatus
 import com.alphaStore.Core.minifiedresponse.AccessRoleMinifiedResponse
 import jakarta.transaction.Transactional
+import org.springframework.context.annotation.Primary
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -13,6 +14,7 @@ import java.util.*
 
 
 @Suppress("SqlDialectInspection", "SqlNoDataSourceInspection")
+@Primary
 interface AccessRoleRepo : JpaRepository<AccessRole, String> {
     @Transactional
     @Modifying(clearAutomatically = true)
@@ -119,16 +121,18 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
     @Query(
         value = "SELECT COUNT(*)"+
                 "FROM access_roles ar " +
+                "INNER JOIN users_access_role_created_by_user uacbu "+
+                "ON ar.id = uacbu.access_role_created_by_user_id "+
                 "WHERE ar.data_status = :#{#dataStatus.name()} " +
-                "AND (" +
+                "AND uacbu.user_id = :userId "+
+                "AND ( CASE WHEN :queryString = '%' THEN TRUE ELSE " +
                 "ar.id SIMILAR TO :queryString " +
-                "OR u.access_role_id SIMILAR TO :queryString " +
-                "OR u.name SIMILAR TO :queryString "+
-                ")"
+                "END )"
 
         , nativeQuery = true
     )
     fun findCountWithOutOffsetIdOffsetDateAndLimit(
+        @Param("userId") userId: String,
         @Param("queryString") queryString: String,
         @Param("dataStatus") dataStatus: DataStatus = DataStatus.ACTIVE
     ): Long
@@ -141,16 +145,19 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
                 "CAST(ar.title AS VARCHAR) AS title, " +
                 "CAST(ar.description AS VARCHAR) AS description, " +
                 "ar.created_date AS createdDate " +
+                "FROM access_roles ar " +
+                "INNER JOIN users_access_role_created_by_user uacbu "+
+                "ON ar.id = uacbu.access_role_created_by_user_id "+
                 "WHERE ar.data_status = :#{#dataStatus.name()} " +
-                "AND (" +
+                "AND uacbu.user_id = :userId "+
+                "AND ( CASE WHEN :queryString = '%' THEN TRUE ELSE " +
                 "ar.id SIMILAR TO :queryString " +
-                "OR u.access_role_id SIMILAR TO :queryString " +
-                "OR u.name SIMILAR TO :queryString "+
-                ") " +
+                "END ) " +
                 "ORDER BY ar.created_date ASC, ar.id ASC"
         , nativeQuery = true
     )
     fun findAllDataWithOutOffsetIdOffsetDateAndLimit(
+        @Param("userId") userId: String,
         @Param("queryString") queryString: String,
         @Param("dataStatus") dataStatus: DataStatus = DataStatus.ACTIVE
     ): List<AccessRoleMinifiedResponse>
@@ -164,19 +171,21 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
                 "CAST(ar.description AS VARCHAR) AS description, " +
                 "ar.created_date AS createdDate " +
                 "FROM access_roles ar " +
+                "INNER JOIN users_access_role_created_by_user uacbu "+
+                "ON ar.id = uacbu.access_role_created_by_user_id "+
                 "WHERE ar.created_date > :offsetDate " +
+                "AND uacbu.user_id = :userId "+
                 "AND ar.data_status = :#{#dataStatus.name()} " +
                 "AND ar.created_date > :offsetDate "+
-                "AND (" +
+                "AND (CASE WHEN :queryString = '%' THEN TRUE ELSE " +
                 "ar.id SIMILAR TO :queryString " +
-                "OR u.access_role_id SIMILAR TO :queryString " +
-                "OR u.name SIMILAR TO :queryString "+
-                ")" +
+                "END )" +
                 "ORDER BY ar.created_date ASC,ar.id ASC "+
                 "LIMIT :limit "
         , nativeQuery = true
     )
     fun findWithOutOffsetId(
+        @Param("userId") userId: String,
         @Param("queryString") queryString: String,
         @Param("dataStatus") dataStatus: DataStatus = DataStatus.ACTIVE,
         @Param("offsetDate") offsetDate:ZonedDateTime,
@@ -187,23 +196,26 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
     @Query(
         value = "SELECT "+
                 "CAST(ar.id AS VARCHAR) AS id, " +
+                "CAST(ar.code AS VARCHAR) AS code, " +
                 "CAST(ar.title AS VARCHAR) AS title, " +
                 "CAST(ar.description AS VARCHAR) AS description, " +
                 "ar.created_date AS createdDate " +
                 "FROM access_roles ar " +
-                "WHERE ar.access_role_id > :offsetId " +
+                "INNER JOIN users_access_role_created_by_user uacbu "+
+                "ON ar.id = uacbu.access_role_created_by_user_id "+
+                "WHERE u.access_role_id > :offsetId " +
                 "AND ar.created_date = :offsetDate " +
+                "AND uacbu.user_id = :userId "+
                 "AND ar.data_status = :#{#dataStatus.name()} " +
-                "AND (" +
+                "AND (CASE WHEN :queryString = '%' THEN TRUE ELSE " +
                 "ar.id SIMILAR TO :queryString " +
-                "OR u.access_role_id SIMILAR TO :queryString " +
-                "OR u.name SIMILAR TO :queryString " +
-                ")" +
+                "END )" +
                 "ORDER BY ar.created_date ASC,ar.id ASC "+
                 "LIMIT :limit "
         , nativeQuery = true
     )
     fun findWithOffsetId(
+        @Param("userId") userId: String,
         @Param("queryString") queryString: String,
         @Param("dataStatus") dataStatus: DataStatus = DataStatus.ACTIVE,
         @Param("offsetId") offsetId: String,
