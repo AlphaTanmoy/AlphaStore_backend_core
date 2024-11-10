@@ -12,12 +12,9 @@ data class AccessRole(
     @Column(nullable = false)
     var description: String = "",
 
-    @Column(nullable = false)
-    var code: String = "",
-
     @Enumerated(EnumType.STRING)
     @Column(name = "access_role_type", nullable = false)
-    var accessRoleType: AccessRoleType  // Holds one value from AccessRoleType enum
+    var accessRoleType: AccessRoleType
 ) : SuperEntityWithParentId()
 
 @JsonFilter("AccessRoleFilter")

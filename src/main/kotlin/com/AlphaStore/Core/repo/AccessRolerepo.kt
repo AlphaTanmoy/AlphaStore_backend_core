@@ -120,8 +120,6 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
     @Query(
         value = "SELECT COUNT(*)"+
                 "FROM access_roles ar " +
-                "LEFT JOIN users u " +
-                "ON u.access_role_id = ar.id " +
                 "WHERE ar.data_status = :#{#dataStatus.name()} " +
                 "AND (" +
                 "ar.id SIMILAR TO :queryString " +
@@ -142,12 +140,8 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
                 "CAST(ar.id AS VARCHAR) AS id, " +
                 "CAST(ar.code AS VARCHAR) AS code, " +
                 "CAST(ar.title AS VARCHAR) AS title, " +
-                "CAST(u.name AS VARCHAR) AS uname, " +
                 "CAST(ar.description AS VARCHAR) AS description, " +
                 "ar.created_date AS createdDate " +
-                "FROM access_roles ar " +
-                "LEFT JOIN users u " +
-                "ON u.access_role_id = ar.id " +
                 "WHERE ar.data_status = :#{#dataStatus.name()} " +
                 "AND (" +
                 "ar.id SIMILAR TO :queryString " +
@@ -168,12 +162,9 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
                 "CAST(ar.id AS VARCHAR) AS id, " +
                 "CAST(ar.code AS VARCHAR) AS code, " +
                 "CAST(ar.title AS VARCHAR) AS title, " +
-                "CAST(u.name AS VARCHAR) AS uname, " +
                 "CAST(ar.description AS VARCHAR) AS description, " +
                 "ar.created_date AS createdDate " +
                 "FROM access_roles ar " +
-                "LEFT JOIN users u " +
-                "ON u.access_role_id = ar.id " +
                 "WHERE ar.created_date > :offsetDate " +
                 "AND ar.data_status = :#{#dataStatus.name()} " +
                 "AND ar.created_date > :offsetDate "+
@@ -197,15 +188,11 @@ interface AccessRoleRepo : JpaRepository<AccessRole, String> {
     @Query(
         value = "SELECT "+
                 "CAST(ar.id AS VARCHAR) AS id, " +
-                "CAST(ar.code AS VARCHAR) AS code, " +
                 "CAST(ar.title AS VARCHAR) AS title, " +
-                "CAST(u.name AS VARCHAR) AS uname, " +
                 "CAST(ar.description AS VARCHAR) AS description, " +
                 "ar.created_date AS createdDate " +
                 "FROM access_roles ar " +
-                "LEFT JOIN users u " +
-                "ON u.access_role_id = ar.id " +
-                "WHERE u.access_role_id > :offsetId " +
+                "WHERE ar.access_role_id > :offsetId " +
                 "AND ar.created_date = :offsetDate " +
                 "AND ar.data_status = :#{#dataStatus.name()} " +
                 "AND (" +

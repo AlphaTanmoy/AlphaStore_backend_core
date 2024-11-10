@@ -2,7 +2,7 @@ package com.alphaStore.Core.contracts
 
 import com.alphaStore.Core.entity.AccessRole
 
-interface AccessRoleDataRepoAggregatorContract{
+interface AccessRoleRepoAggregatorContract{
 
     fun save(entity: AccessRole): AccessRole
 
