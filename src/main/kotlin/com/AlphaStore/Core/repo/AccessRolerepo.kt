@@ -1,9 +1,9 @@
 package com.alphaStore.Core.repo
+
 import com.alphaStore.Core.entity.AccessRole
 import com.alphaStore.Core.enums.DataStatus
 import com.alphaStore.Core.minifiedresponse.AccessRoleMinifiedResponse
 import jakarta.transaction.Transactional
-import org.springframework.context.annotation.Primary
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -13,7 +13,6 @@ import java.util.*
 
 
 @Suppress("SqlDialectInspection", "SqlNoDataSourceInspection")
-@Primary
 interface AccessRoleRepo : JpaRepository<AccessRole, String> {
     @Transactional
     @Modifying(clearAutomatically = true)
