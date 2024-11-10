@@ -9,7 +9,6 @@ import com.alphaStore.Core.service.CountryService
 import com.alphaStore.Utils.KeywordsAndConstants
 import com.alphaStore.Utils.validation.ValidateForUUID
 import jakarta.validation.Valid
-import jakarta.ws.rs.BadRequestException
 import org.springframework.web.bind.annotation.*
 import java.net.URLDecoder
 
