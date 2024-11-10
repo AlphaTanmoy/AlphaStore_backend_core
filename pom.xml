@@ -77,6 +77,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.alphaStore</groupId>
+			<artifactId>Utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -130,11 +136,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>alphaStore_backend_Core</id>
-			<name>Core</name>
-			<url>https://maven.pkg.github.com/AlphaTanmoy/alphaStore_backend_Core</url>
-		</repository>
-	</distributionManagement>
 </project>

@@ -13,6 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 		"com.alphaStore.Otp"
 	]
 )
+
 @EnableDiscoveryClient
 class CoreApplication
 
