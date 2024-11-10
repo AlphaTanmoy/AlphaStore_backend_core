@@ -15,7 +15,7 @@ data class AccessRole(
     @Enumerated(EnumType.STRING)
     @Column(name = "access_role_type", nullable = false)
     var accessRoleType: AccessRoleType
-) : SuperEntityWithParentId()
+) : SuperEntityWithIdCreatedLastModifiedDataStatus()
 
 @JsonFilter("AccessRoleFilter")
 class AccessRoleMixIn
