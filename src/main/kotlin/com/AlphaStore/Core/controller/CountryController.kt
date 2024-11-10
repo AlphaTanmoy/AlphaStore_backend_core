@@ -4,6 +4,7 @@ import com.alphaStore.Core.entity.Country
 import com.alphaStore.Core.minifiedresponseimpl.CountryListMinifiedResponseImpl
 import com.alphaStore.Core.model.FilterOption
 import com.alphaStore.Core.model.PaginationResponse
+import com.alphaStore.Core.model.UpdateCountryServiceRequest
 import com.alphaStore.Core.service.CountryService
 import com.alphaStore.Utils.KeywordsAndConstants
 import com.alphaStore.Utils.validation.ValidateForUUID
@@ -81,8 +82,8 @@ class CountryController(
     ): Country {
         ValidateForUUID.check(updateCountryServiceRequest.countryId, "country")
         val country = countryService.getCountryById(updateCountryServiceRequest.countryId)
-        if (country.otpSenderImpls.isEmpty())
-            throw BadRequestException("Please add at least one Otp sender implementation for country before making it serviceable")
+        /*if (country.otpSenderImpls.isEmpty())
+            throw BadRequestException("Please add at least one Otp sender implementation for country before making it serviceable")*/
         if (country.serviceable != updateCountryServiceRequest.serviceable) {
             countryService.updateCountry(
                 country,
